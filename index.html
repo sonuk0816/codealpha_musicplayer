@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nightwave &mdash; Music Player</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- ===================== PLAYER CARD ===================== -->
+  <main class="player" aria-label="Music player">
+
+    <header class="player__brand">
+      <span class="player__brand-mark" aria-hidden="true"></span>
+      <span class="player__brand-name">Nightwave</span>
+      <button class="icon-btn player__playlist-toggle" id="playlistToggle" type="button" aria-expanded="false" aria-controls="playlistPanel" aria-label="Toggle playlist">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="18" x2="14" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Album Art -->
+    <div class="art-stage">
+      <div class="art-stage__glow" aria-hidden="true"></div>
+      <div class="art-stage__disc" id="disc">
+        <img id="albumArt" class="art-stage__img" src="" alt="Album art for the current track" />
+        <div class="art-stage__spindle" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <!-- Track meta -->
+    <section class="meta" aria-live="polite">
+      <h1 class="meta__title" id="trackTitle">&mdash;</h1>
+      <p class="meta__artist" id="trackArtist">&mdash;</p>
+    </section>
+
+    <!-- Progress -->
+    <section class="progress" aria-label="Playback progress">
+      <span class="progress__time" id="currentTime">00:00</span>
+      <input
+        class="progress__bar"
+        id="seekBar"
+        type="range"
+        min="0"
+        max="100"
+        value="0"
+        step="0.1"
+        aria-label="Seek"
+      />
+      <span class="progress__time" id="durationTime">00:00</span>
+    </section>
+
+    <!-- Transport controls -->
+    <section class="controls" aria-label="Playback controls">
+      <button class="icon-btn icon-btn--ghost" id="shuffleBtn" type="button" aria-pressed="false" aria-label="Toggle shuffle">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 3 21 3 21 8"></polyline>
+          <line x1="4" y1="20" x2="21" y2="3"></line>
+          <polyline points="21 16 21 21 16 21"></polyline>
+          <line x1="15" y1="15" x2="21" y2="21"></line>
+          <line x1="4" y1="4" x2="9" y2="9"></line>
+        </svg>
+      </button>
+
+      <button class="icon-btn" id="prevBtn" type="button" aria-label="Previous track">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+          <path d="M6 6h2v12H6zM9.5 12 19 6v12z"></path>
+        </svg>
+      </button>
+
+      <button class="play-btn" id="playBtn" type="button" aria-label="Play">
+        <svg id="playIcon" viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" width="26" height="26" fill="currentColor" style="display:none">
+          <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
+        </svg>
+      </button>
+
+      <button class="icon-btn" id="nextBtn" type="button" aria-label="Next track">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+          <path d="M16 6h2v12h-2zM5 6l9.5 6L5 18z"></path>
+        </svg>
+      </button>
+
+      <button class="icon-btn icon-btn--ghost" id="repeatBtn" type="button" aria-pressed="false" aria-label="Toggle repeat">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"></polyline>
+          <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+          <polyline points="7 23 3 19 7 15"></polyline>
+          <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+        </svg>
+      </button>
+    </section>
+
+    <!-- Volume -->
+    <section class="volume" aria-label="Volume control">
+      <button class="icon-btn icon-btn--ghost" id="muteBtn" type="button" aria-label="Mute">
+        <svg id="volIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+          <path d="M3 10v4h4l5 5V5L7 10H3z"></path>
+          <path d="M16.5 12a4.5 4.5 0 0 0-2.5-4.03v8.06A4.5 4.5 0 0 0 16.5 12z"></path>
+          <path d="M14 4.3v2.06A7 7 0 0 1 19 12a7 7 0 0 1-5 6.64v2.06A9 9 0 0 0 21 12a9 9 0 0 0-7-8.7z"></path>
+        </svg>
+        <svg id="muteIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display:none">
+          <path d="M3 10v4h4l5 5V5L7 10H3z"></path>
+          <line x1="16" y1="9" x2="22" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+          <line x1="22" y1="9" x2="16" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+        </svg>
+      </button>
+      <input class="volume__bar" id="volumeBar" type="range" min="0" max="100" value="80" aria-label="Volume" />
+    </section>
+
+  </main>
+
+  <!-- ===================== PLAYLIST PANEL ===================== -->
+  <aside class="playlist" id="playlistPanel">
+    <div class="playlist__header">
+      <h2 class="playlist__title">Up next</h2>
+      <span class="playlist__count" id="playlistCount">0 tracks</span>
+    </div>
+    <ul class="playlist__list" id="playlistList" role="listbox" aria-label="Track playlist"></ul>
+  </aside>
+
+</div>
+
+<audio id="audio" preload="metadata"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
